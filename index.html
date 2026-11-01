@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RISE</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23B5185F'/%3E%3Ccircle cx='24' cy='24' r='9' fill='%23D0E86E'/%3E%3Cg stroke='%23D0E86E' stroke-width='4' stroke-linecap='round'%3E%3Cpath d='M24 10V4M24 38v6M10 24H4M38 24h6M33.9 14.1l4-4M14.1 14.1l-4-4M33.9 33.9l4 4M14.1 33.9l-4 4'/%3E%3C/g%3E%3C/svg%3E">
+<style>
+:root{--p:#B5185F;--bg:#17413F;--c:#FEFFE0;--t:#17302F;--b:#35C1C2;--a:#D0E86E}
+body.kontras{--p:#000;--bg:#000;--c:#fff;--t:#000;--b:#fff;--a:#ff0}
+*{box-sizing:border-box}
+body{margin:0;font:18px/1.45 system-ui,Arial,sans-serif;background:var(--bg);color:var(--c)}
+body.besar{font-size:22px}
+main{max-width:520px;margin:auto;padding:0 14px 40px}
+header{background:var(--p);color:var(--c);border-bottom:4px solid var(--a);padding:22px 18px 18px;margin:0 -14px 14px;border-radius:0 0 28px 28px}
+header h1{margin:0;font-size:1.5em;line-height:1.2}
+header p{margin:4px 0 0;opacity:.9}
+button,input{font:inherit}
+button{width:100%;min-height:64px;margin:6px 0;padding:10px 14px;border:3px solid var(--p);border-radius:16px;background:var(--c);color:var(--t);font-weight:700;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:4px solid var(--a);outline-offset:2px}
+body.besar button{min-height:88px}
+button.utama{background:var(--p);color:var(--c)}
+button.mic{background:var(--a);color:#000;border-color:var(--p);min-height:96px;font-size:1.3em}
+button.kecil{width:auto;min-height:44px;padding:6px 14px;font-size:.8em}
+.pilih.on{background:var(--p);color:var(--c)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid button{margin:0;display:flex;flex-direction:column;align-items:center;gap:2px}
+.grid .ik{font-size:1.8em}
+.kartu{background:var(--c);border:2px solid var(--b);border-radius:18px;padding:14px;margin:12px 0;color:var(--t)}
+.kartu h2{margin:0 0 8px;font-size:1.1em}
+input{width:100%;padding:12px;border:3px solid var(--p);border-radius:12px;background:#fff;color:#000}
+label{font-weight:700;display:block;margin:10px 0 4px}
+.tab{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px}
+.tab button{margin:0}
+#lampu{border-radius:18px;padding:16px;font-weight:700;border:3px solid var(--c)}
+#lampu small{display:block;font-weight:400;margin-top:4px}
+.baris{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed var(--b)}
+.baris.tot{font-weight:700;border-bottom:2px solid var(--t)}
+[hidden]{display:none!important}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.12em;font-size:1.1em;color:var(--a);margin-bottom:6px}.brand svg{width:44px;height:44px}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="brand"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="9" fill="#D0E86E"/><g stroke="#D0E86E" stroke-width="4" stroke-linecap="round"><path d="M24 10V4M24 38v6M10 24H4M38 24h6M33.9 14.1l4-4M14.1 14.1l-4-4M33.9 33.9l4 4M14.1 33.9l-4 4"/></g></svg>RISE</div>
+  <h1 id="judul">Selamat datang</h1>
+  <p id="sub">Catat keuangan usaha dengan mudah</p>
+</header>
+
+<!-- LAYAR AWAL: nama + pilih mode -->
+<section id="awal">
+  <div class="kartu">
+    <label for="nama">Siapa nama Anda?</label>
+    <input id="nama" autocomplete="name" placeholder="Contoh: Bu Sari">
+  </div>
+  <div class="kartu">
+    <h2>Pilih cara memakai aplikasi</h2>
+    <p>Pilihan ini hanya menyesuaikan tampilan. Bisa diganti kapan saja.</p>
+    <button class="pilih" data-m="netra" aria-label="Tunanetra: dipandu suara dan getar">🦯 Tunanetra: dipandu suara</button>
+    <button class="pilih" data-m="rungu" aria-label="Tunarungu: ikon dan tulisan">🧏 Tunarungu: ikon dan tulisan</button>
+    <button class="pilih" data-m="daksa" aria-label="Tunadaksa: tombol besar">♿ Tunadaksa: tombol besar</button>
+    <button class="pilih" data-m="umum" aria-label="Umum: semua fitur">🙂 Umum: semua fitur</button>
+  </div>
+</section>
+
+<!-- APLIKASI -->
+<section id="app" hidden>
+  <div class="tab" role="tablist">
+    <button id="tCatat" class="utama" role="tab">✍️ Catat</button>
+    <button id="tLapor" role="tab">📊 Laporan</button>
+  </div>
+
+  <div id="vCatat">
+    <div id="boxMic" class="kartu">
+      <button id="mic" class="mic" aria-label="Tekan lalu ucapkan transaksi">🎤 Bicara</button>
+      <p>Contoh: "Beli benang lima puluh ribu tunai"</p>
+      <label for="teks">Atau ketik transaksi</label>
+      <input id="teks" placeholder="Jual kain seratus ribu transfer">
+      <button id="kirimTeks">Proses</button>
+    </div>
+
+    <div id="boxIkon" class="kartu">
+      <h2>1. Apa yang terjadi?</h2>
+      <div class="grid" id="gJenis">
+        <button class="pilih" data-j="jual"><span class="ik">💰</span>Jual</button>
+        <button class="pilih" data-j="bahan"><span class="ik">🧵</span>Beli bahan</button>
+        <button class="pilih" data-j="ops"><span class="ik">💡</span>Biaya usaha</button>
+        <button class="pilih" data-j="modal"><span class="ik">🏦</span>Tambah modal</button>
+        <button class="pilih" data-j="prive"><span class="ik">👤</span>Ambil pribadi</button>
+      </div>
+      <h2 style="margin-top:14px">2. Dibayar bagaimana?</h2>
+      <div class="grid" id="gBayar">
+        <button class="pilih" data-b="Kas"><span class="ik">💵</span>Tunai</button>
+        <button class="pilih" data-b="Bank"><span class="ik">📱</span>Transfer/QRIS</button>
+        <button class="pilih" data-b="Kredit"><span class="ik">⏳</span>Belum dibayar</button>
+      </div>
+      <label for="nom" style="margin-top:14px">3. Berapa rupiah?</label>
+      <input id="nom" type="text" inputmode="numeric" placeholder="50000">
+      <button id="lanjut" class="utama">Lanjut</button>
+    </div>
+
+    <div id="konfirm" class="kartu" hidden>
+      <h2>Periksa dulu</h2>
+      <div id="hasil" role="status" aria-live="assertive"></div>
+      <button id="ya" class="utama">✅ Benar, simpan</button>
+      <button id="tidak">❌ Salah, ulangi</button>
+    </div>
+  </div>
+
+  <div id="vLapor" hidden>
+    <div id="lampu" role="status" aria-live="polite">Memuat...</div>
+    <button id="baca" class="pilih" hidden>🔊 Bacakan laporan</button>
+    <a id="wa" hidden><button>💬 Kirim pengingat tagihan lewat WhatsApp</button></a>
+    <div class="kartu"><h2>Laporan laba rugi</h2><div id="lr"></div></div>
+    <div class="kartu"><h2>Posisi keuangan</h2><div id="pk"></div></div>
+    <button id="muat" class="pilih">🔄 Muat ulang</button>
+  </div>
+
+  <div class="grid" style="margin-top:18px">
+    <button id="kon" class="kecil">◐ Kontras tinggi</button>
+    <button id="ganti" class="kecil">⚙️ Ganti mode</button>
+  </div>
+</section>
+</main>
+
+<script>
+const URL_API = 'https://script.google.com/macros/s/AKfycbzQn1P4jLcwUEhIiyfoWEMcuj4NbaS2hkYwGTXhtlfUxfyPFr9DaD4lDUmgpoxk85zj/exec';
+const TOKEN   = 'RISE123';
+const $ = id => document.getElementById(id);
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let nama = '', mode = '', pending = null, jenis = '', bayar = '', data = {};
+
+// ---------- profil tersimpan ----------
+function muatProfil() { try { const p = JSON.parse(localStorage.getItem('ig') || '{}'); nama = p.nama || ''; mode = p.mode || ''; } catch (e) {} }
+function simpanProfil() { try { localStorage.setItem('ig', JSON.stringify({ nama, mode })); } catch (e) {} }
+
+// ---------- suara ----------
+const suara = () => mode !== 'rungu';
+function ucap(t, selesai) {
+  if (!suara() || !window.speechSynthesis) { if (selesai) selesai(); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(t); u.lang = 'id-ID';
+  if (selesai) u.onend = selesai;
+  speechSynthesis.speak(u);
+}
+function dengar(cb) {
+  if (!SR) { alert('Gunakan Chrome untuk fitur suara.'); return; }
+  const r = new SR(); r.lang = 'id-ID';
+  r.onresult = e => cb(e.results[0][0].transcript.toLowerCase());
+  r.onerror = () => ucap('Suara tidak terdengar, coba lagi.');
+  r.start();
+  if (navigator.vibrate) navigator.vibrate(100);
+}
+
+// ---------- sapaan & mode ----------
+function sapaan() { const h = new Date().getHours(); return h < 11 ? 'Selamat pagi' : h < 15 ? 'Selamat siang' : h < 18 ? 'Selamat sore' : 'Selamat malam'; }
+const NAMA_MODE = { netra: 'Mode suara', rungu: 'Mode visual', daksa: 'Mode tombol besar', umum: 'Mode umum' };
+function mulai() {
+  $('awal').hidden = true; $('app').hidden = false;
+  $('judul').textContent = `${sapaan()}, ${nama}!`;
+  $('sub').textContent = `${NAMA_MODE[mode]} aktif. Ayo catat usaha hari ini.`;
+  document.body.classList.toggle('besar', mode === 'daksa');
+  $('boxMic').hidden = mode === 'rungu';
+  $('boxIkon').hidden = mode === 'netra';
+  tampil('catat');
+  if (mode === 'netra') ucap(`${sapaan()}, ${nama}. Tekan tombol kuning besar di layar, lalu ucapkan transaksi Anda. Untuk melihat laporan, pilih tab Laporan.`);
+}
+function tampil(v) {
+  $('vCatat').hidden = v !== 'catat'; $('vLapor').hidden = v !== 'lapor';
+  $('tCatat').classList.toggle('utama', v === 'catat'); $('tLapor').classList.toggle('utama', v === 'lapor');
+  if (v === 'lapor') muatLaporan();
+}
+document.querySelectorAll('#awal .pilih').forEach(b => b.onclick = () => {
+  const n = $('nama').value.trim();
+  if (!n) { $('nama').focus(); ucap('Silakan isi nama Anda dulu.'); alert('Isi nama Anda dulu.'); return; }
+  nama = n; mode = b.dataset.m; simpanProfil(); mulai();
+});
+$('ganti').onclick = () => { $('awal').hidden = false; $('app').hidden = true; $('nama').value = nama; $('judul').textContent = 'Selamat datang'; $('sub').textContent = 'Pilih cara memakai aplikasi'; };
+$('kon').onclick = () => document.body.classList.toggle('kontras');
+$('tCatat').onclick = () => tampil('catat');
+$('tLapor').onclick = () => tampil('lapor');
+
+// ---------- parser nominal (suara/teks) ----------
+const U = { nol:0, satu:1, dua:2, tiga:3, empat:4, lima:5, enam:6, tujuh:7, delapan:8, sembilan:9 };
+function angka(t) {
+  const m = t.match(/(\d+(?:[.,]\d+)*)\s*(ribu|rb|k|juta|jt)?/);
+  if (m) {
+    let s = m[1];
+    if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, ''); else s = s.replace(',', '.');
+    let n = parseFloat(s);
+    if (['ribu','rb','k'].includes(m[2])) n *= 1000;
+    if (['juta','jt'].includes(m[2])) n *= 1e6;
+    return Math.round(n);
+  }
+  let tot = 0, g = 0, last = 0, ada = false;
+  for (const w of t.split(/\s+/)) {
+    if (w in U) { last = U[w]; g += last; ada = true; }
+    else if (w === 'sepuluh') { g += 10; last = 0; ada = true; }
+    else if (w === 'sebelas') { g += 11; last = 0; ada = true; }
+    else if (w === 'belas') { g += 10; last = 0; }
+    else if (w === 'puluh') { g += last * 9; last = 0; }
+    else if (w === 'seratus') { g += 100; last = 0; ada = true; }
+    else if (w === 'ratus') { g += last * 99; last = 0; }
+    else if (w === 'seribu') { tot += 1000; ada = true; }
+    else if (w === 'ribu') { tot += (g || 1) * 1000; g = 0; last = 0; ada = true; }
+    else if (w === 'sejuta') { tot += 1e6; ada = true; }
+    else if (w === 'juta') { tot += (g || 1) * 1e6; g = 0; last = 0; ada = true; }
+  }
+  return ada ? tot + g : 0;
+}
+
+// ---------- jurnal ----------
+function bangun(j, by, nominal, ket) {
+  const B = by === 'Bank' ? 'Bank' : 'Kas', kr = by === 'Kredit';
+  const M = {
+    jual:  ['Penjualan', kr ? 'Piutang Usaha' : B, 'Pendapatan Penjualan'],
+    bahan: ['Pembelian bahan', 'Beban Bahan Baku', kr ? 'Utang Dagang' : B],
+    ops:   ['Biaya usaha', 'Beban Operasional', kr ? 'Utang Dagang' : B],
+    modal: ['Tambahan modal', B, 'Modal Pemilik'],
+    prive: ['Pengambilan pribadi', 'Prive', B]
+  }[j];
+  return { keterangan: ket || M[0], jenis: M[0], debit: M[1], kredit: M[2], nominal };
+}
+function parse(t) {
+  const n = angka(t); if (!n) return null;
+  const by = /transfer|qris|bank/.test(t) ? 'Bank' : /kredit|utang|hutang|belum bayar/.test(t) ? 'Kredit' : 'Kas';
+  let j;
+  if (/prive|ambil pribadi|pakai pribadi/.test(t)) j = 'prive';
+  else if (/modal/.test(t)) j = 'modal';
+  else if (/jual|terima|laku/.test(t)) j = 'jual';
+  else if (/beli|bayar|ongkos|gaji|listrik|sewa|bensin/.test(t)) j = /bahan|benang|kain|tepung|gula|telur|kayu/.test(t) ? 'bahan' : 'ops';
+  else return null;
+  return bangun(j, by, n, t);
+}
+const rp = n => 'Rp ' + Number(n || 0).toLocaleString('id-ID');
+
+function konfirmasi(p) {
+  if (!p) { ucap('Maaf, jenis transaksi atau nominalnya belum terbaca. Coba ulangi.'); alert('Belum terbaca. Coba ulangi.'); return; }
+  pending = p;
+  const t = `${p.jenis}, ${p.nominal.toLocaleString('id-ID')} rupiah. Benar?`;
+  $('hasil').textContent = `${t} (Debit: ${p.debit}, Kredit: ${p.kredit})`;
+  $('konfirm').hidden = false; $('ya').focus();
+  ucap(t, () => { if (mode === 'netra') dengar(j => { if (/benar|ya|betul|simpan/.test(j)) simpan(); else if (/salah|tidak|ulang/.test(j)) batal(); else ucap('Tidak jelas. Silakan tekan tombol.'); }); });
+}
+function batal(pesan) { pending = null; $('konfirm').hidden = true; $('hasil').textContent = ''; if (pesan !== false) ucap('Dibatalkan. Silakan ulangi.'); }
+async function simpan() {
+  if (!pending) return;
+  try {
+    const r = await fetch(URL_API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ token: TOKEN, ...pending }) });
+    const j = await r.json();
+    if (j.ok) { batal(false); ucap('Tersimpan.'); alert('Tersimpan ✅'); $('nom').value = ''; $('teks').value = ''; }
+    else ucap('Gagal menyimpan.');
+  } catch (e) { ucap('Gagal menyimpan. Periksa koneksi internet.'); alert('Gagal menyimpan. Periksa internet.'); }
+}
+$('mic').onclick = () => dengar(t => konfirmasi(parse(t)));
+$('kirimTeks').onclick = () => konfirmasi(parse($('teks').value.toLowerCase()));
+$('ya').onclick = simpan; $('tidak').onclick = () => batal();
+document.querySelectorAll('#gJenis .pilih').forEach(b => b.onclick = () => { jenis = b.dataset.j; document.querySelectorAll('#gJenis .pilih').forEach(x => x.classList.toggle('on', x === b)); });
+document.querySelectorAll('#gBayar .pilih').forEach(b => b.onclick = () => { bayar = b.dataset.b; document.querySelectorAll('#gBayar .pilih').forEach(x => x.classList.toggle('on', x === b)); });
+$('lanjut').onclick = () => {
+  const n = parseInt($('nom').value.replace(/\D/g, ''), 10);
+  if (!jenis || !bayar || !n) { alert('Pilih apa yang terjadi, cara bayar, dan isi nominal.'); return; }
+  konfirmasi(bangun(jenis, bayar, n));
+};
+
+// ---------- laporan & mesin rekomendasi ----------
+const baris = (a, b, tot) => `<div class="baris${tot ? ' tot' : ''}"><span>${a}</span><span>${b}</span></div>`;
+async function muatLaporan() {
+  const L = $('lampu'); L.textContent = 'Memuat...';
+  try {
+    data = await (await fetch(URL_API)).json();
+    const d = data, s = d['Status'];
+    const peta = {
+      MERAH:  ['#ff6b6b', '🔴 Bahaya', 'Kas operasional kritis. Butuh suntikan modal kerja.'],
+      KUNING: ['#ffd84d', '🟡 Waspada', `Piutang tertahan ${rp(d['Piutang Usaha'])}. Tunda beli bahan baru, fokus tagih piutang.`],
+      HIJAU:  ['#6fdc8c', '🟢 Sehat', 'Bisnis sehat. Kapasitas produksi siap ditingkatkan!']
+    };
+    const [w, jd, pesan] = peta[s] || ['#ddd', 'Belum ada data', 'Catat transaksi pertama Anda.'];
+    L.style.background = w; L.style.color = '#000';
+    L.innerHTML = `${jd}<small>${pesan}</small>`;
+    $('lr').innerHTML = baris('Pendapatan', rp(d['Pendapatan'])) + baris('Beban bahan baku', rp(d['Beban Bahan Baku'])) + baris('Beban operasional', rp(d['Beban Operasional'])) + baris('Laba bersih', rp(d['Laba Bersih']), 1);
+    $('pk').innerHTML = baris('Kas', rp(d['Kas'])) + baris('Bank', rp(d['Bank'])) + baris('Piutang usaha', rp(d['Piutang Usaha'])) + baris('Utang dagang', rp(d['Utang Dagang'])) + baris('Modal pemilik', rp(d['Modal'])) + baris('Prive', rp(d['Prive']), 1);
+    $('baca').hidden = !suara();
+    const wa = $('wa'); wa.hidden = s !== 'KUNING';
+    wa.href = 'https://wa.me/?text=' + encodeURIComponent('Halo, mohon konfirmasi pembayaran tagihan usaha kami. Terima kasih.');
+    wa.target = '_blank';
+  } catch (e) { L.textContent = 'Gagal memuat laporan. Periksa internet dan URL_API.'; }
+}
+$('muat').onclick = muatLaporan;
+$('baca').onclick = () => {
+  const d = data;
+  ucap(`Laba bersih ${Math.round(d['Laba Bersih'] || 0)} rupiah. Kas ${Math.round(d['Kas'] || 0)} rupiah. Bank ${Math.round(d['Bank'] || 0)} rupiah. Piutang ${Math.round(d['Piutang Usaha'] || 0)} rupiah. ${$('lampu').textContent}`);
+};
+
+// ---------- mulai ----------
+muatProfil();
+if (nama && mode) mulai();
+</script>
+</body>
+</html>
