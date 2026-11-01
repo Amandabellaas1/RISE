@@ -133,6 +133,7 @@ const URL_API = 'https://script.google.com/macros/s/AKfycbzQn1P4jLcwUEhIiyfoWEMc
 const TOKEN   = 'RISE123';
 const $ = id => document.getElementById(id);
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let menyimpan = false;
 let nama = '', mode = '', pending = null, jenis = '', bayar = '', data = {};
 
 // ---------- profil tersimpan ----------
@@ -249,13 +250,15 @@ function konfirmasi(p) {
 }
 function batal(pesan) { pending = null; $('konfirm').hidden = true; $('hasil').textContent = ''; if (pesan !== false) ucap('Dibatalkan. Silakan ulangi.'); }
 async function simpan() {
-  if (!pending) return;
+  if (!pending || menyimpan) return;
+  menyimpan = true;
   try {
     const r = await fetch(URL_API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ token: TOKEN, ...pending }) });
     const j = await r.json();
     if (j.ok) { batal(false); ucap('Tersimpan.'); alert('Tersimpan ✅'); $('nom').value = ''; $('teks').value = ''; }
     else ucap('Gagal menyimpan.');
   } catch (e) { ucap('Gagal menyimpan. Periksa koneksi internet.'); alert('Gagal menyimpan. Periksa internet.'); }
+  finally { menyimpan = false; }
 }
 $('mic').onclick = () => dengar(t => konfirmasi(parse(t)));
 $('kirimTeks').onclick = () => konfirmasi(parse($('teks').value.toLowerCase()));
